@@ -894,15 +894,10 @@
 
         <div class="card js" style="grid-column: 1 / -1;">
           <h3>🗺️ Rutas en Next.js</h3>
-          <p style="font-size: 0.92rem; margin: 0 0 0.4rem;">
+          <p style="font-size: 0.92rem; margin: 0;">
             Cada carpeta dentro de <code>/app/</code> es una ruta automática.
             <code>/app/productos/page.js</code> → <code>/productos</code>.
             Las rutas dinámicas usan corchetes: <code>/app/productos/[id]/page.js</code> → <code>/productos/3</code>.
-          </p>
-          <p style="font-size: 0.85rem; margin: 0; color: var(--muted);">
-            <strong>SSG con <code>generateStaticParams()</code>:</strong> Next pre-genera las 12 páginas
-            de productos en build time — no se calculan en cada visita, ya están listas en CDN.
-            Verificable con <code>npm run build</code>: aparecen marcadas como <code>● (SSG)</code>.
           </p>
         </div>
       </div>
