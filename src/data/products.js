@@ -1,5 +1,15 @@
 // Catalogo de instrumentos musicales de Origen.
 // 4 guitarras electricas, 3 acusticas, 2 bajos, 3 accesorios.
+//
+// Imagenes: usamos placeholders con la paleta de la marca para mantener
+// consistencia visual (las URLs de Unsplash sin verificar pueden devolver
+// fotos no relacionadas, ej: paisajes o retratos).
+// Stratocaster y SG usan fotos reales de Unsplash que ya verifique.
+// Para reemplazar por fotos reales: cambiar el campo `image` por la URL
+// de Unsplash o un archivo local en /public.
+
+const PLACE = (label, color = "3e2723", fg = "faf6f0") =>
+  `https://placehold.co/800x600/${color}/${fg}?text=${encodeURIComponent(label)}&font=lato`;
 
 export const products = [
   {
@@ -20,8 +30,7 @@ export const products = [
     description:
       "Guitarra electrica de cuerpo solido con tapa de arce flameado y caoba en el cuerpo. Mastil de caoba con diapason de palo de rosa. Dos pastillas humbucker, puente Tune-O-Matic. Sustain prolongado, sonido grueso y calido. Hecha para rock y hard rock.",
     category: "Electricas",
-    image:
-      "https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80",
+    image: PLACE("Les Paul\nStandard Cherry"),
     stock: 5,
   },
   {
@@ -31,8 +40,7 @@ export const products = [
     description:
       "Guitarra electrica de cuerpo de fresno acabado butterscotch blonde. Mastil de arce de una sola pieza, dos pastillas single coil con bridge plate de acero. Brillante, mordiente y articulada. Iconica del country, rock e indie.",
     category: "Electricas",
-    image:
-      "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=800&q=80",
+    image: PLACE("Telecaster\nButterscotch"),
     stock: 7,
   },
   {
@@ -53,8 +61,7 @@ export const products = [
     description:
       "Guitarra acustica con caja Dreadnought, tapa de pino abeto macizo y aros y fondo de caoba. Mastil de nato, diapason de palo de rosa. Cuerdas de acero. Proyeccion potente y graves marcados. Ideal para acompanar canto.",
     category: "Acusticas",
-    image:
-      "https://images.unsplash.com/photo-1493225458734-fcc6cf62c4c5?w=800&q=80",
+    image: PLACE("Acustica Folk\nDreadnought", "5d4037"),
     stock: 12,
   },
   {
@@ -64,8 +71,7 @@ export const products = [
     description:
       "Guitarra clasica con cuerdas de nylon. Tapa de cedro, fondo y aros de palo de rosa, mastil de cedro. Diapason de ebano. Sonido calido y dulce, ideal para folklore, bossa nova y musica clasica.",
     category: "Acusticas",
-    image:
-      "https://images.unsplash.com/photo-1488412253247-5e0eafb2fe04?w=800&q=80",
+    image: PLACE("Clasica de Concierto\nNylon", "5d4037"),
     stock: 10,
   },
   {
@@ -75,8 +81,7 @@ export const products = [
     description:
       "Guitarra electroacustica con caja Jumbo y cutaway. Tapa de pino abeto macizo, preamplificador con afinador integrado y EQ de 3 bandas. Conexion jack 1/4 para amplificar. Versatil para vivo y grabacion.",
     category: "Acusticas",
-    image:
-      "https://images.unsplash.com/photo-1483450388369-9ed95738483c?w=800&q=80",
+    image: PLACE("Electroacustica\nJumbo", "5d4037"),
     stock: 8,
   },
   {
@@ -86,8 +91,7 @@ export const products = [
     description:
       "Bajo electrico estilo Jazz Bass de 4 cuerdas. Cuerpo de aliso, mastil de arce con diapason de palo de rosa. Dos pastillas single coil con controles de volumen independientes y tono maestro. Mastil delgado, sonido moderno y articulado.",
     category: "Bajos",
-    image:
-      "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?w=800&q=80",
+    image: PLACE("Jazz Bass\n4 Cuerdas", "1f1410", "fbbf24"),
     stock: 4,
   },
   {
@@ -97,8 +101,7 @@ export const products = [
     description:
       "Bajo electrico estilo Precision con electronica activa. Cuerpo de aliso, mastil de arce. Pastilla split coil + jazz en el puente. Preamplificador activo con EQ de 2 bandas. Punch profundo, ideal para rock y funk.",
     category: "Bajos",
-    image:
-      "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=800&q=80",
+    image: PLACE("Precision Bass\nActive", "1f1410", "fbbf24"),
     stock: 3,
   },
   {
@@ -108,8 +111,7 @@ export const products = [
     description:
       "Amplificador combo de 30W con parlante de 10 pulgadas. Dos canales (limpio y crunch), reverb digital, entrada auxiliar para celular y salida de auriculares. Ideal para practica y ensayos chicos.",
     category: "Accesorios",
-    image:
-      "https://images.unsplash.com/photo-1601412436009-d964bd02edbc?w=800&q=80",
+    image: PLACE("Amplificador\n30W Combo", "b87333", "3e2723"),
     stock: 15,
   },
   {
@@ -119,8 +121,7 @@ export const products = [
     description:
       "Pedal de distorsion analogico con tres controles: volumen, tono y ganancia. Bypass real, alimentacion 9V (no incluye fuente). Sonido grueso y armonico estilo amplificador valvular. Construccion metalica robusta.",
     category: "Accesorios",
-    image:
-      "https://images.unsplash.com/photo-1595167040407-3b5d27f2c0d5?w=800&q=80",
+    image: PLACE("Pedal de Distorsion\nVintage", "b87333", "3e2723"),
     stock: 25,
   },
   {
@@ -130,8 +131,7 @@ export const products = [
     description:
       "Juego completo de cuerdas para guitarra electrica calibre 0.10-0.46. Nucleo de acero hexagonal con entorchado de niquel. Empacadas individualmente con sellado anti-corrosion. Sonido brillante y duradero.",
     category: "Accesorios",
-    image:
-      "https://images.unsplash.com/photo-1558098329-a11cff621064?w=800&q=80",
+    image: PLACE("Set de Cuerdas\nAcero 0.10", "b87333", "3e2723"),
     stock: 100,
   },
 ];
