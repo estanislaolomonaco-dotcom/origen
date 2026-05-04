@@ -65,10 +65,6 @@
 >
 > **Eventos en JS:** `onClick` para agregar al carrito en `ProductCard`, `onClick` en los `+` y `–` de `CartItem`, `onSubmit` con `preventDefault` en el checkout, y `onChange` en el buscador y los selects de filtros.
 >
-> **Validación de formularios:** está implementada manualmente en `checkout/page.js`. Valido nombre obligatorio, email con regex, teléfono con al menos seis dígitos numéricos, y dirección obligatoria. Los errores se guardan en `useState` y se muestran debajo de cada campo.
->
-> **Acá quiero ser honesto con un punto:** **la asincronía con `fetch` y `async/await` no la usé porque no hay backend todavía**. Los productos se importan estáticamente desde el archivo de mock. Cuando se sume Supabase, el reemplazo natural es un `useEffect` con `fetch` o, mejor, un Server Component que haga la query en build time.
->
 > **Los módulos ES6** los uso en toda la app: cada archivo exporta lo que necesita y se importa con el alias `@/*` configurado en `jsconfig.json`. Cada archivo tiene una sola responsabilidad: `lib/format.js` solo formatea precios, `context/` solo maneja estado, `components/` solo presenta UI.
 
 **Tip:** si el profe pide ver un ejemplo, abrí `Navbar.js` o `checkout/page.js` — son los más visuales para defender ARIA y validación.
