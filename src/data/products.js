@@ -1,15 +1,9 @@
 // Catalogo de instrumentos musicales de Origen.
 // 4 guitarras electricas, 3 acusticas, 2 bajos, 3 accesorios.
 //
-// Imagenes: usamos placeholders con la paleta de la marca para mantener
-// consistencia visual (las URLs de Unsplash sin verificar pueden devolver
-// fotos no relacionadas, ej: paisajes o retratos).
-// Stratocaster y SG usan fotos reales de Unsplash que ya verifique.
-// Para reemplazar por fotos reales: cambiar el campo `image` por la URL
-// de Unsplash o un archivo local en /public.
-
-const PLACE = (label, color = "3e2723", fg = "faf6f0") =>
-  `https://placehold.co/800x600/${color}/${fg}?text=${encodeURIComponent(label)}&font=lato`;
+// Imagenes: descargadas de Wikimedia Commons y servidas desde /public/products/.
+// Son de dominio publico o licencia libre (CC). Para reemplazar, dropear el
+// archivo en /public/products/ con el mismo nombre o cambiar el campo image.
 
 export const products = [
   {
@@ -19,8 +13,7 @@ export const products = [
     description:
       "Guitarra electrica estilo Stratocaster. Cuerpo de aliso, mastil de arce con diapason de palo de rosa, 3 pastillas single coil, puente con tremolo. Sonido limpio y cristalino, ideal para blues, rock y funk. Acabado sunburst clasico.",
     category: "Electricas",
-    image:
-      "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&q=80",
+    image: "/products/stratocaster.jpg",
     stock: 8,
   },
   {
@@ -30,7 +23,7 @@ export const products = [
     description:
       "Guitarra electrica de cuerpo solido con tapa de arce flameado y caoba en el cuerpo. Mastil de caoba con diapason de palo de rosa. Dos pastillas humbucker, puente Tune-O-Matic. Sustain prolongado, sonido grueso y calido. Hecha para rock y hard rock.",
     category: "Electricas",
-    image: PLACE("Les Paul\nStandard Cherry"),
+    image: "/products/lespaul.jpg",
     stock: 5,
   },
   {
@@ -40,7 +33,7 @@ export const products = [
     description:
       "Guitarra electrica de cuerpo de fresno acabado butterscotch blonde. Mastil de arce de una sola pieza, dos pastillas single coil con bridge plate de acero. Brillante, mordiente y articulada. Iconica del country, rock e indie.",
     category: "Electricas",
-    image: PLACE("Telecaster\nButterscotch"),
+    image: "/products/telecaster.png",
     stock: 7,
   },
   {
@@ -50,8 +43,7 @@ export const products = [
     description:
       "Guitarra electrica de caoba solida con doble cutaway profundo. Mastil delgado de caoba, dos humbuckers de salida media. Liviana, comoda y agresiva. Pensada para rock duro y hard rock estilo Angus Young.",
     category: "Electricas",
-    image:
-      "https://images.unsplash.com/photo-1525201548942-d8732f6617a0?w=800&q=80",
+    image: "/products/sg.jpg",
     stock: 6,
   },
   {
@@ -61,7 +53,7 @@ export const products = [
     description:
       "Guitarra acustica con caja Dreadnought, tapa de pino abeto macizo y aros y fondo de caoba. Mastil de nato, diapason de palo de rosa. Cuerdas de acero. Proyeccion potente y graves marcados. Ideal para acompanar canto.",
     category: "Acusticas",
-    image: PLACE("Acustica Folk\nDreadnought", "5d4037"),
+    image: "/products/folk.jpg",
     stock: 12,
   },
   {
@@ -71,7 +63,7 @@ export const products = [
     description:
       "Guitarra clasica con cuerdas de nylon. Tapa de cedro, fondo y aros de palo de rosa, mastil de cedro. Diapason de ebano. Sonido calido y dulce, ideal para folklore, bossa nova y musica clasica.",
     category: "Acusticas",
-    image: PLACE("Clasica de Concierto\nNylon", "5d4037"),
+    image: "/products/clasica.png",
     stock: 10,
   },
   {
@@ -81,7 +73,7 @@ export const products = [
     description:
       "Guitarra electroacustica con caja Jumbo y cutaway. Tapa de pino abeto macizo, preamplificador con afinador integrado y EQ de 3 bandas. Conexion jack 1/4 para amplificar. Versatil para vivo y grabacion.",
     category: "Acusticas",
-    image: PLACE("Electroacustica\nJumbo", "5d4037"),
+    image: "/products/electroacustica.jpg",
     stock: 8,
   },
   {
@@ -91,7 +83,7 @@ export const products = [
     description:
       "Bajo electrico estilo Jazz Bass de 4 cuerdas. Cuerpo de aliso, mastil de arce con diapason de palo de rosa. Dos pastillas single coil con controles de volumen independientes y tono maestro. Mastil delgado, sonido moderno y articulado.",
     category: "Bajos",
-    image: PLACE("Jazz Bass\n4 Cuerdas", "1f1410", "fbbf24"),
+    image: "/products/jazzbass.jpg",
     stock: 4,
   },
   {
@@ -101,7 +93,7 @@ export const products = [
     description:
       "Bajo electrico estilo Precision con electronica activa. Cuerpo de aliso, mastil de arce. Pastilla split coil + jazz en el puente. Preamplificador activo con EQ de 2 bandas. Punch profundo, ideal para rock y funk.",
     category: "Bajos",
-    image: PLACE("Precision Bass\nActive", "1f1410", "fbbf24"),
+    image: "/products/precisionbass.jpg",
     stock: 3,
   },
   {
@@ -111,7 +103,7 @@ export const products = [
     description:
       "Amplificador combo de 30W con parlante de 10 pulgadas. Dos canales (limpio y crunch), reverb digital, entrada auxiliar para celular y salida de auriculares. Ideal para practica y ensayos chicos.",
     category: "Accesorios",
-    image: PLACE("Amplificador\n30W Combo", "b87333", "3e2723"),
+    image: "/products/amplificador.jpg",
     stock: 15,
   },
   {
@@ -121,7 +113,7 @@ export const products = [
     description:
       "Pedal de distorsion analogico con tres controles: volumen, tono y ganancia. Bypass real, alimentacion 9V (no incluye fuente). Sonido grueso y armonico estilo amplificador valvular. Construccion metalica robusta.",
     category: "Accesorios",
-    image: PLACE("Pedal de Distorsion\nVintage", "b87333", "3e2723"),
+    image: "/products/pedal.jpg",
     stock: 25,
   },
   {
@@ -131,7 +123,7 @@ export const products = [
     description:
       "Juego completo de cuerdas para guitarra electrica calibre 0.10-0.46. Nucleo de acero hexagonal con entorchado de niquel. Empacadas individualmente con sellado anti-corrosion. Sonido brillante y duradero.",
     category: "Accesorios",
-    image: PLACE("Set de Cuerdas\nAcero 0.10", "b87333", "3e2723"),
+    image: "/products/cuerdas.jpg",
     stock: 100,
   },
 ];

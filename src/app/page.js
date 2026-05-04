@@ -56,7 +56,7 @@ export default function HomePage() {
           </div>
           <div className={styles.heroImage} aria-hidden="true">
             <ProductImage
-              src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=1000&q=80"
+              src="/products/lespaul.jpg"
               alt="Origen instrumentos"
             />
           </div>
