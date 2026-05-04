@@ -274,6 +274,20 @@
       gap: 1rem;
       min-height: 0;
     }
+    .arch-svg-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .arch-svg {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
     .mermaid {
       flex: 1;
       background: var(--surface);
@@ -630,55 +644,138 @@
 
       <h1 style="font-size: 1.3rem; margin-bottom: 0.4rem;">Diagrama de arquitectura</h1>
 
-      <div class="diagram-wrap" style="gap: 0.5rem;">
-        <div class="mermaid">
-flowchart LR
-    User[Usuario] --> Browser[Navegador]
-    Browser --> Frontend
+      <div class="arch-svg-wrap">
+        <svg viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+          <defs>
+            <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.4"/></filter>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+            </marker>
+            <marker id="arrPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#f472b6"/>
+            </marker>
+          </defs>
 
-    subgraph Frontend [Frontend Next.js]
-        direction LR
-        Pages[Rutas y paginas]
-        Globals[globals css]
-        Modules[CSS Modules]
-        Components[Componentes UI]
-        Context[CartContext]
-        Storage[(localStorage)]
+          <rect width="960" height="520" fill="#0f172a" rx="12"/>
 
-        Globals --> Pages
-        Modules --> Components
-        Pages --> Components
-        Components -->|useCart| Context
-        Context -->|sync| Storage
-        Context -.->|setState| Components
-    end
+          <!-- Title -->
+          <text x="480" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#b87333" font-family="Georgia, serif">Origen — Arquitectura Web</text>
+          <text x="480" y="40" text-anchor="middle" font-size="9" fill="#94a3b8" font-family="sans-serif">Next.js 14 · React 18 · Vercel</text>
 
-    subgraph Deploy [CI CD Pipeline]
-        direction LR
-        Local[Codigo local] -->|push| GitHub[GitHub main]
-        GitHub -->|webhook| Vercel[Vercel build]
-        Vercel -->|deploy| Site[URL publica]
-    end
+          <!-- ROW 1: User → Browser → Vercel CDN → Next.js + Deploy -->
+          <rect x="36" y="56" width="88" height="38" rx="9" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="80" y="79" text-anchor="middle" font-size="10" fill="#fbbf24" font-weight="600" font-family="sans-serif">👤 Usuario</text>
+          <line x1="124" y1="75" x2="158" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
 
-    Site -.->|sirve| Browser
+          <rect x="158" y="56" width="110" height="38" rx="9" fill="#1e293b" stroke="#5BC0EB" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="213" y="79" text-anchor="middle" font-size="10" fill="#7dd3fc" font-weight="600" font-family="sans-serif">🌐 Navegador</text>
+          <line x1="268" y1="75" x2="300" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
 
-    classDef est fill:#0c4a6e,stroke:#38bdf8,color:#e0f2fe
-    classDef sty fill:#78350f,stroke:#f59e0b,color:#fef3c7
-    classDef log fill:#14532d,stroke:#10b981,color:#dcfce7
-    classDef dep fill:#4c1d95,stroke:#a78bfa,color:#ede9fe
+          <rect x="300" y="56" width="118" height="38" rx="9" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="359" y="79" text-anchor="middle" font-size="10" fill="#67e8f9" font-weight="600" font-family="sans-serif">▲ Vercel CDN</text>
+          <line x1="418" y1="75" x2="450" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
 
-    class Layout,Pages est
-    class Globals,Modules sty
-    class Components,Context,Storage log
-    class Local,GitHub,Vercel,Site dep
-        </div>
+          <rect x="450" y="56" width="130" height="38" rx="9" fill="#0c4a6e" stroke="#5BC0EB" stroke-width="2" filter="url(#sh)"/>
+          <text x="515" y="73" text-anchor="middle" font-size="10" fill="#7dd3fc" font-weight="700" font-family="sans-serif">Next.js 14</text>
+          <text x="515" y="87" text-anchor="middle" font-size="8" fill="#94a3b8" font-family="sans-serif">App Router · SSG</text>
 
-        <div class="legend" style="font-size: 0.78rem; gap: 1rem;">
-          <span class="l-html">Estructura (HTML)</span>
-          <span class="l-css">Estilos (CSS)</span>
-          <span class="l-js">Lógica (React/JS)</span>
-          <span class="l-dep">Deploy</span>
-        </div>
+          <rect x="700" y="56" width="228" height="38" rx="9" fill="#1e293b" stroke="#334155" stroke-width="1" filter="url(#sh)"/>
+          <text x="814" y="73" text-anchor="middle" font-size="9" fill="#64748b" font-weight="600" font-family="sans-serif">DEPLOY</text>
+          <text x="814" y="87" text-anchor="middle" font-size="8" fill="#475569" font-family="sans-serif">git push → GitHub → Vercel build</text>
+
+          <!-- ROW 2: Capas + Root Layout -->
+          <line x1="515" y1="94" x2="515" y2="118" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <text x="155" y="114" text-anchor="middle" font-size="8" fill="#475569" font-family="sans-serif">CAPAS</text>
+          <rect x="36" y="118" width="90" height="38" rx="9" fill="#0c4a6e" stroke="#5BC0EB" stroke-width="1" filter="url(#sh)"/>
+          <text x="81" y="141" text-anchor="middle" font-size="9" fill="#7dd3fc" font-weight="600" font-family="sans-serif">JSX / HTML</text>
+          <rect x="136" y="118" width="90" height="38" rx="9" fill="#7c2d12" stroke="#f97316" stroke-width="1" filter="url(#sh)"/>
+          <text x="181" y="141" text-anchor="middle" font-size="9" fill="#fdba74" font-weight="600" font-family="sans-serif">globals.css</text>
+          <rect x="236" y="118" width="110" height="38" rx="9" fill="#14532d" stroke="#7AC74F" stroke-width="1" filter="url(#sh)"/>
+          <text x="291" y="141" text-anchor="middle" font-size="9" fill="#86efac" font-weight="600" font-family="sans-serif">JS / React</text>
+
+          <rect x="368" y="118" width="294" height="38" rx="9" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="515" y="135" text-anchor="middle" font-size="10" fill="#c4b5fd" font-weight="700" font-family="sans-serif">app/layout.js — Root Layout</text>
+          <text x="515" y="150" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">CartProvider · Navbar · {children} · Footer</text>
+
+          <!-- ROW 3: Rutas -->
+          <line x1="515" y1="156" x2="515" y2="180" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="480" y="177" text-anchor="middle" font-size="8" fill="#475569" font-family="sans-serif">RUTAS</text>
+
+          <rect x="80" y="186" width="78" height="32" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1" filter="url(#sh)"/>
+          <text x="119" y="207" text-anchor="middle" font-size="10" fill="#c4b5fd" font-weight="700" font-family="sans-serif">/</text>
+
+          <rect x="172" y="186" width="110" height="32" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1" filter="url(#sh)"/>
+          <text x="227" y="207" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="600" font-family="sans-serif">/productos</text>
+
+          <rect x="296" y="186" width="140" height="32" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1" filter="url(#sh)"/>
+          <text x="366" y="207" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="600" font-family="sans-serif">/productos/[id]</text>
+
+          <rect x="450" y="186" width="92" height="32" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1" filter="url(#sh)"/>
+          <text x="496" y="207" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="600" font-family="sans-serif">/carrito</text>
+
+          <rect x="556" y="186" width="100" height="32" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1" filter="url(#sh)"/>
+          <text x="606" y="207" text-anchor="middle" font-size="9" fill="#c4b5fd" font-weight="600" font-family="sans-serif">/checkout</text>
+
+          <rect x="670" y="186" width="120" height="32" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3,2" filter="url(#sh)"/>
+          <text x="730" y="201" text-anchor="middle" font-size="8" fill="#fde68a" font-weight="600" font-family="sans-serif">SSG</text>
+          <text x="730" y="213" text-anchor="middle" font-size="7" fill="#94a3b8" font-family="sans-serif">12 pre-renders</text>
+
+          <!-- ROW 4: Componentes -->
+          <line x1="480" y1="218" x2="480" y2="242" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="480" y="239" text-anchor="middle" font-size="8" fill="#475569" font-family="sans-serif">COMPONENTES</text>
+
+          <rect x="36" y="248" width="180" height="72" rx="9" fill="#1e293b" stroke="#7AC74F" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="126" y="266" text-anchor="middle" font-size="9" fill="#86efac" font-weight="700" font-family="sans-serif">Layout</text>
+          <text x="126" y="282" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">Navbar · Footer</text>
+          <text x="126" y="296" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">ProductImage</text>
+
+          <rect x="226" y="248" width="200" height="72" rx="9" fill="#1e293b" stroke="#5BC0EB" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="326" y="266" text-anchor="middle" font-size="9" fill="#7dd3fc" font-weight="700" font-family="sans-serif">Producto</text>
+          <text x="326" y="282" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">ProductCard · ProductGrid</text>
+          <text x="326" y="296" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">ProductFilters · ProductsView</text>
+
+          <rect x="436" y="248" width="160" height="72" rx="9" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="516" y="266" text-anchor="middle" font-size="9" fill="#fbbf24" font-weight="700" font-family="sans-serif">Carrito</text>
+          <text x="516" y="282" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">CartItem</text>
+          <text x="516" y="296" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">AddToCartButton</text>
+
+          <rect x="606" y="248" width="180" height="72" rx="9" fill="#1e293b" stroke="#f472b6" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="696" y="266" text-anchor="middle" font-size="9" fill="#f9a8d4" font-weight="700" font-family="sans-serif">Checkout</text>
+          <text x="696" y="282" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">Form + validación</text>
+          <text x="696" y="296" text-anchor="middle" font-size="8" fill="#64748b" font-family="sans-serif">Pantalla éxito (orderId)</text>
+
+          <!-- ROW 5: Estado · Datos -->
+          <line x1="480" y1="320" x2="480" y2="344" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="480" y="341" text-anchor="middle" font-size="8" fill="#475569" font-family="sans-serif">ESTADO · DATOS</text>
+
+          <rect x="36" y="350" width="180" height="42" rx="9" fill="#1e293b" stroke="#f472b6" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="126" y="369" text-anchor="middle" font-size="10" fill="#f9a8d4" font-weight="700" font-family="sans-serif">CartContext</text>
+          <text x="126" y="384" text-anchor="middle" font-size="7" fill="#64748b" font-family="sans-serif">useState · useEffect</text>
+          <line x1="216" y1="371" x2="248" y2="371" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrPink)"/>
+
+          <rect x="248" y="350" width="158" height="42" rx="9" fill="#1e293b" stroke="#7AC74F" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="327" y="369" text-anchor="middle" font-size="10" fill="#86efac" font-weight="700" font-family="sans-serif">localStorage</text>
+          <text x="327" y="384" text-anchor="middle" font-size="7" fill="#64748b" font-family="sans-serif">key: origen_cart</text>
+
+          <rect x="418" y="350" width="196" height="42" rx="9" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="516" y="367" text-anchor="middle" font-size="10" fill="#fbbf24" font-weight="700" font-family="sans-serif">Datos Estáticos</text>
+          <text x="516" y="383" text-anchor="middle" font-size="7" fill="#64748b" font-family="sans-serif">products.js · 12 instrumentos · sin fetch()</text>
+
+          <rect x="626" y="350" width="298" height="42" rx="9" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="775" y="367" text-anchor="middle" font-size="10" fill="#67e8f9" font-weight="700" font-family="sans-serif">Deploy Flow</text>
+          <text x="775" y="383" text-anchor="middle" font-size="7" fill="#94a3b8" font-family="sans-serif">código → git push → GitHub → Vercel → sitio live</text>
+
+          <!-- Legend -->
+          <rect x="36" y="412" width="240" height="26" rx="7" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+          <circle cx="56" cy="425" r="5" fill="#f59e0b"/>
+          <text x="68" y="429" font-size="8" fill="#94a3b8" font-family="sans-serif">Client Component</text>
+          <circle cx="168" cy="425" r="5" fill="#7AC74F"/>
+          <text x="180" y="429" font-size="8" fill="#94a3b8" font-family="sans-serif">Server Component</text>
+
+          <!-- Bottom note -->
+          <text x="924" y="430" text-anchor="end" font-size="7" fill="#475569" font-family="sans-serif">Origen · Mayo 2026</text>
+        </svg>
       </div>
 
       <p class="footnote" style="font-size: 0.7rem; margin-top: 0.5rem; padding-top: 0.5rem;">
