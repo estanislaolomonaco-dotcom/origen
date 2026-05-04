@@ -10,9 +10,9 @@ export default function Footer() {
         <div>
           <h3 className={styles.title}>Origen</h3>
           <p className={styles.text}>
-            Capsulas de cafe compatibles. Seleccion de origenes y blends, desde
-            espressos intensos hasta saborizados. Cafe de origen, en cada
-            capsula.
+            Instrumentos musicales: guitarras electricas, acusticas, bajos y
+            accesorios. Marcas seleccionadas, asesoramiento y envio a todo el
+            pais. Donde nace tu sonido.
           </p>
         </div>
 

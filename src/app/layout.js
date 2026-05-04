@@ -4,9 +4,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Origen | Capsulas de cafe",
+  title: "Origen | Instrumentos musicales",
   description:
-    "Origen es una tienda online de capsulas de cafe compatibles. Cafe de origen, en cada capsula. Proyecto academico desarrollado con Next.js.",
+    "Origen es una tienda online de instrumentos musicales: guitarras electricas, acusticas, bajos y accesorios. Donde nace tu sonido. Proyecto academico desarrollado con Next.js.",
 };
 
 export default function RootLayout({ children }) {

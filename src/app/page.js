@@ -9,24 +9,24 @@ export default function HomePage() {
 
   const benefits = [
     {
-      title: "Cafe fresco",
-      description: "Tueste reciente y empacado en capsula con barrera de aroma.",
-      icon: "☕",
+      title: "Probadas y testeadas",
+      description: "Cada instrumento se prueba y se setea antes de salir del local.",
+      icon: "🎸",
     },
     {
       title: "Envio rapido",
-      description: "Recibi tus capsulas en 24/48 horas en todo el pais.",
+      description: "Despachamos en 24/48 horas con embalaje reforzado a todo el pais.",
       icon: "🚚",
     },
     {
-      title: "100% compatibles",
-      description: "Funcionan con cualquier maquina tipo Nespresso original.",
-      icon: "✅",
+      title: "Garantia oficial",
+      description: "Todos los productos con garantia de fabrica y soporte tecnico.",
+      icon: "🛡️",
     },
     {
-      title: "Origenes seleccionados",
-      description: "Cafes de Brasil, Colombia y Etiopia, mas blends italianos.",
-      icon: "🌎",
+      title: "Asesoramiento",
+      description: "Te ayudamos a elegir el instrumento adecuado para tu nivel.",
+      icon: "💬",
     },
   ];
 
@@ -35,18 +35,18 @@ export default function HomePage() {
       <section className={styles.hero}>
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroText}>
-            <span className={styles.kicker}>Capsulas de cafe</span>
+            <span className={styles.kicker}>Instrumentos musicales</span>
             <h1 className={styles.heroTitle}>
-              Cafe de origen, en cada capsula
+              Donde nace tu sonido
             </h1>
             <p className={styles.heroSubtitle}>
-              Espressos intensos, tuestes suaves, descafeinados y saborizados.
-              Compatibles con maquinas tipo Nespresso. Tueste reciente y envio a
-              todo el pais.
+              Guitarras electricas, acusticas, bajos y accesorios. Marcas
+              seleccionadas para principiantes y profesionales. Envio a todo el
+              pais y asesoramiento personalizado.
             </p>
             <div className={styles.heroActions}>
               <Link href="/productos" className="btn btn-accent">
-                Ver capsulas
+                Ver instrumentos
               </Link>
               <Link href="#beneficios" className="btn btn-outline">
                 Conocer mas
@@ -56,7 +56,7 @@ export default function HomePage() {
           <div className={styles.heroImage} aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://images.unsplash.com/photo-1610632380989-680fe40816c6?w=1000&q=80"
+              src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=1000&q=80"
               alt=""
             />
           </div>

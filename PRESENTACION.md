@@ -7,9 +7,9 @@
 ## Slide 1 — Origen
 
 ### ¿Qué es?
-**Origen** es una tienda online de **cápsulas de café compatibles** (tipo Nespresso). Permite a un usuario **explorar el catálogo de cápsulas, filtrarlas por intensidad / tipo, buscarlas por nombre, agregarlas a un carrito persistente y completar un checkout simulado**.
+**Origen** es una tienda online de **instrumentos musicales** — guitarras eléctricas, acústicas, bajos y accesorios. Permite a un usuario **explorar el catálogo, filtrarlo por categoría, buscar por nombre, agregar instrumentos a un carrito persistente y completar un checkout simulado**.
 
-Tagline: *"Café de origen, en cada cápsula."*
+Tagline: *"Donde nace tu sonido."*
 
 Todo el flujo de compra funciona en el cliente: el carrito sobrevive al recargar la página gracias a `localStorage`, y el checkout valida el formulario y emite un número de orden `ORG-XXXXXX`.
 
@@ -20,7 +20,7 @@ Todo el flujo de compra funciona en el cliente: el carrito sobrevive al recargar
 | Lenguaje | **JavaScript** (ES6 modules) |
 | UI | **React 18** + **CSS Modules** |
 | Estado global | **React Context** + `localStorage` |
-| Datos | Mock local en `src/data/products.js` (12 cápsulas, 4 categorías) *(backend pendiente)* |
+| Datos | Mock local en `src/data/products.js` (12 instrumentos, 4 categorías) *(backend pendiente)* |
 | Hosting / CI | **Vercel** + **GitHub** |
 
 ### Alcance honesto
@@ -194,7 +194,7 @@ src/app/
 └── not-found.js                  →  404
 ```
 
-`generateStaticParams()` en [productos/[id]/page.js:14](src/app/productos/[id]/page.js) **pre-renderiza estáticamente las 12 cápsulas en build time** (verificable con `npm run build`: salen como `● (SSG)`).
+`generateStaticParams()` en [productos/[id]/page.js:14](src/app/productos/[id]/page.js) **pre-renderiza estáticamente las 12 páginas de instrumentos en build time** (verificable con `npm run build`: salen como `● (SSG)`).
 
 ### Server Components vs Client Components
 Next.js renderiza por defecto en el servidor. Un componente es Client solo si lleva `"use client"` arriba.

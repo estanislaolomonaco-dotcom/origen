@@ -4,17 +4,29 @@
 
 **Tiempo total objetivo:** 10:00 · **Margen real:** apuntar a 9:00 para tener buffer.
 
+**Distribución de las 7 slides:**
+
+| Slide | Tema | Tiempo |
+|---|---|---|
+| 1 | Portada | 0:00 → 1:00 |
+| 2 | Diagrama de arquitectura | 1:00 → 3:00 |
+| 3 | HTML / CSS / JS | 3:00 → 5:00 |
+| 4 | React + Next.js | 5:00 → 7:30 |
+| 5 | Recorrido por la app (screenshots) | 7:30 → 8:30 |
+| 6 | CI/CD | 8:30 → 9:00 |
+| 7 | Uso fundamentado de IA | 9:00 → 10:00 |
+
 ---
 
 ## ⏱ Slide 1 — Portada (≈ 1 min · 0:00 → 1:00)
 
-> **Buenos días / tardes. Soy Estanislao Lomonaco y vengo a presentar Origen, un e-commerce de cápsulas de café compatibles que armé como proyecto integrador para esta materia.**
+> **Buenos días / tardes. Soy Estanislao Lomonaco y vengo a presentar Origen, un e-commerce de instrumentos musicales que armé como proyecto integrador para esta materia.**
 >
-> En una frase: **Origen permite a un usuario explorar un catálogo de cápsulas de café — divididas en intensas, suaves, descafeinadas y saborizadas —, filtrarlas, buscarlas por nombre, agregarlas a un carrito que se persiste en el navegador, y completar un checkout simulado con validación de formulario y confirmación de orden.** El tagline es *"Café de origen, en cada cápsula"*.
+> En una frase: **Origen permite a un usuario explorar un catálogo de instrumentos — guitarras eléctricas, acústicas, bajos y accesorios —, filtrarlos por categoría, buscarlos por nombre, agregarlos a un carrito que se persiste en el navegador, y completar un checkout simulado con validación de formulario y confirmación de orden.** El tagline es *"Donde nace tu sonido"*.
 >
 > El stack es **Next.js 14 con App Router, JavaScript puro — sin TypeScript —, React 18 para los componentes interactivos, CSS Modules para los estilos, React Context con localStorage para el estado global del carrito, y deploy automático en Vercel a partir de un repositorio en GitHub.**
 >
-> Quiero ser claro desde el principio con el alcance: **el proyecto cubre frontend completo. La capa de datos hoy son 12 cápsulas mockeadas en `src/data/products.js`. El backend con Supabase, la autenticación y la pasarela de pagos son la próxima iteración** — preferí entregar un frontend sólido y deployable antes que medio backend a medias.
+> Quiero ser claro desde el principio con el alcance: **el proyecto cubre frontend completo. La capa de datos hoy son 12 instrumentos mockeados en `src/data/products.js`. El backend con Supabase, la autenticación y la pasarela de pagos son la próxima iteración** — preferí entregar un frontend sólido y deployable antes que medio backend a medias.
 >
 > **Vamos al diagrama.**
 
@@ -40,7 +52,7 @@
 >
 > **La flecha punteada de Context hacia Components es clave:** representa que cuando llamo a `setState` dentro del contexto, React re-renderiza automáticamente todos los componentes que están suscritos. Cuando agrego un producto, el badge del navbar y los totales del carrito se actualizan en el mismo ciclo.
 >
-> **Y abajo, en violeta, está el pipeline de deploy:** código local → `git push` a GitHub → un webhook le avisa a Vercel → Vercel corre `npm run build` → si el build pasa, queda online en una URL `*.vercel.app` — en mi caso, las 12 páginas de cápsulas se prerenderizan estáticamente. Esa URL es la que sirve los assets al navegador del usuario.
+> **Y abajo, en violeta, está el pipeline de deploy:** código local → `git push` a GitHub → un webhook le avisa a Vercel → Vercel corre `npm run build` → si el build pasa, queda online en una URL `*.vercel.app` — en mi caso, las 12 páginas de instrumentos se prerenderizan estáticamente. Esa URL es la que sirve los assets al navegador del usuario.
 >
 > **Con esto tengo cubiertos los seis elementos que pide el diagrama: usuario y navegador, separación HTML/CSS/JS, componentes y rutas reales del repo, flechas de flujo, re-render por state, y pipeline de deploy de punta a punta.**
 
@@ -84,7 +96,7 @@
 >
 > **Re-render.** ¿Cuándo y por qué se re-renderiza la app? Caso típico: hago click en "Agregar" dentro de un `ProductCard`. Eso llama a `addItem(product)` del Context, que ejecuta `setItems(...)`. React detecta que el estado cambió y re-renderiza **todos los componentes que están suscritos a `useCart()`**: el badge del navbar muestra un número más, los totales del carrito se recalculan, y el `useEffect` con dependencia `[items]` se dispara y guarda en localStorage. Todo en un solo ciclo de render.
 >
-> **Rutas en Next App Router.** El App Router mapea **carpetas a URLs**: `app/page.js` es la home, `app/productos/page.js` es el catálogo, `app/productos/[id]/page.js` es el detalle dinámico. Y acá hay algo que vale la pena destacar: tengo `generateStaticParams()` en el detalle, que **pre-renderiza estáticamente las doce páginas de cápsulas en build time** — una HTML por cada producto del catálogo. Si corremos `npm run build` ahora, las vas a ver listadas como SSG.
+> **Rutas en Next App Router.** El App Router mapea **carpetas a URLs**: `app/page.js` es la home, `app/productos/page.js` es el catálogo, `app/productos/[id]/page.js` es el detalle dinámico. Y acá hay algo que vale la pena destacar: tengo `generateStaticParams()` en el detalle, que **pre-renderiza estáticamente las doce páginas de instrumentos en build time** — una HTML por cada producto del catálogo. Si corremos `npm run build` ahora, las vas a ver listadas como SSG.
 >
 > **Server vs Client Components.** Por defecto, Next renderiza todo en el servidor. Un componente es Client solo si arriba del archivo lleva `"use client"`. **Esta decisión la tomé caso por caso:** las páginas que solo muestran datos son Server Components — más rápidas, menos JS al cliente. Los componentes que necesitan estado, hooks o eventos son Client. Por ejemplo, la página `/productos/[id]` es Server Component que se prerenderiza, pero el botón de agregar está aislado como Client en `AddToCartButton.js` — así la página queda estática y solo el botón hidrata. Mismo principio con la página de productos: la envuelvo en `<Suspense>` y la lógica de filtros vive en un Client Component aparte llamado `ProductsView`.
 
@@ -92,7 +104,26 @@
 
 ---
 
-## ⏱ Slide 5 — CI/CD (≈ 1 min · 7:30 → 8:30)
+## ⏱ Slide 5 — Recorrido por la app (≈ 1 min · 7:30 → 8:30)
+
+> **Antes de pasar al deploy, quiero mostrar el producto funcionando — porque la mejor demostración es verlo en vivo.**
+>
+> Acá tienen capturas del recorrido completo del usuario:
+>
+> - **Home** — hero, instrumentos destacados, categorías y los cuatro beneficios.
+> - **Catálogo** — la grilla responsive con el buscador, el filtro por categoría y el ordenamiento por precio. Si tipeo "Strato" me filtra al instante porque es estado local de React, no recarga la página.
+> - **Detalle** — cada uno de los doce instrumentos tiene su URL propia, prerenderizada estáticamente en build time. La sección "Productos relacionados" usa el helper `getRelatedProducts()` que filtra por misma categoría.
+> - **Carrito** — con productos cargados, el resumen actualiza en tiempo real, y si recargás la página los items siguen ahí gracias a `localStorage`.
+>
+> **Si tienen acceso al deploy, pueden probar todo el flujo en vivo, incluyendo el checkout que valida el formulario y emite un número de orden.**
+
+**Tip:** si tenés la URL de Vercel, abrila en el navegador antes del oral y mostrala como demo después de esta slide. Esa es la "evidencia viva" que cierra mejor que cualquier captura.
+
+> **Vamos al pipeline de deploy.**
+
+---
+
+## ⏱ Slide 6 — CI/CD (≈ 1 min · 8:30 → 9:00)
 
 > **El pipeline va de punta a punta así: trabajo local, commit, push a GitHub, GitHub dispara un webhook a Vercel, Vercel buildea, y si pasa queda en una URL pública.**
 >
@@ -110,7 +141,7 @@
 
 ---
 
-## ⏱ Slide 6 — Uso fundamentado de IA (≈ 1:30 min · 8:30 → 10:00)
+## ⏱ Slide 7 — Uso fundamentado de IA (≈ 1 min · 9:00 → 10:00)
 
 > **Última slide y la del módulo 4. Adjunto el archivo `PROMPTS.md` con los prompts representativos agrupados por feature, así podés ver el detalle.**
 >
@@ -154,8 +185,8 @@
 | *"¿Qué es SSG vs SSR vs CSR?"* | "SSG = HTML pre-generado en build time, lo que hace `generateStaticParams` para mis 12 productos. SSR = renderizado en cada request en el servidor. CSR = se renderiza en el navegador, después de descargar el JS. Mis páginas son SSG y los componentes con `'use client'` hidratan sobre eso." |
 | *"¿Por qué dos `useEffect` y no uno?"* | "Tienen disparadores distintos: uno corre al montar (deps `[]`) para leer; el otro corre cuando cambia `items` (deps `[items]`) para escribir. Si los unía, o leía en cada cambio o escribía sin haber leído todavía." |
 | *"¿Cuál fue el error más difícil que detectó la IA?"* | "El de `useSearchParams` sin `Suspense` — porque el error de build era confuso pero la solución obligaba a entender el modelo de prerender de Next. La separé en `ProductsView` envuelto en `<Suspense>`." |
-| *"¿Por qué cápsulas de café y no productos genéricos?"* | "Para que el proyecto se sienta una tienda real y no un demo. Además me sirvió como prueba de extensibilidad: rebrandear de productos genéricos a Origen me costó un solo prompt porque la paleta está en variables CSS y el catálogo en un único archivo. Lo podés ver en el commit." |
-| *"¿Qué hay que cambiar para vender otra cosa, no café?"* | "Tres archivos: `src/data/products.js` para el catálogo, las 4 variables CSS en `:root` de `globals.css` para la paleta, y los textos del hero / footer / metadata. La arquitectura no cambia." |
+| *"¿Por qué instrumentos musicales?"* | "Quería que se sienta una tienda real y no un demo genérico. Además me sirvió como prueba de extensibilidad: durante el desarrollo cambié el rubro dos veces — primero genérico, después café, finalmente instrumentos — y cada rebrand fue un solo commit porque la paleta vive en variables CSS y el catálogo en un único archivo. Lo podés ver en el git log." |
+| *"¿Qué hay que cambiar para vender otra cosa?"* | "Tres archivos: `src/data/products.js` para el catálogo, las 4 variables CSS en `:root` de `globals.css` para la paleta, y los textos del hero / footer / metadata. La arquitectura no cambia." |
 
 ### Cosas que **NO** decir
 - ❌ "La IA hizo todo" → vale 0 puntos del módulo 4.
@@ -173,7 +204,7 @@
 ## 🎬 Apertura y cierre — versión corta para memorizar
 
 **Apertura (15 seg):**
-> "Buenos días. Soy Estanislao Lomonaco. Vengo a presentar **Origen**, un e-commerce de **cápsulas de café compatibles** hecho con **Next.js 14, JavaScript, CSS Modules, deployado en Vercel desde GitHub**. Frontend completo con catálogo, carrito persistente y checkout. Backend pendiente como decisión consciente de alcance. Vamos al diagrama."
+> "Buenos días. Soy Estanislao Lomonaco. Vengo a presentar **Origen**, un e-commerce de **instrumentos musicales** — guitarras, bajos y accesorios — hecho con **Next.js 14, JavaScript, CSS Modules, deployado en Vercel desde GitHub**. Frontend completo con catálogo, carrito persistente y checkout. Backend pendiente como decisión consciente de alcance. Vamos al diagrama."
 
 **Cierre (15 seg):**
 > "Las decisiones de arquitectura las tomé yo — Context, mock data, qué corre en server vs cliente. La IA aceleró el boilerplate, pero los efectos críticos los verifiqué línea por línea. Adjunto `PROMPTS.md` con la documentación. Gracias."

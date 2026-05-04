@@ -1,146 +1,146 @@
-// Catalogo de capsulas de cafe de Origen.
-// Cada "producto" representa una caja de 10 capsulas compatibles con maquinas tipo Nespresso.
+// Catalogo de instrumentos musicales de Origen.
+// 4 guitarras electricas, 3 acusticas, 2 bajos, 3 accesorios.
 
 export const products = [
   {
     id: 1,
-    name: "Ristretto Forte",
-    price: 5990,
+    name: "Stratocaster Vintage Sunburst",
+    price: 850000,
     description:
-      "Caja de 10 capsulas. Tueste oscuro y alta intensidad. Cuerpo robusto con notas de cacao amargo y madera. Pensado para amantes del espresso fuerte y corto.",
-    category: "Intenso",
+      "Guitarra electrica estilo Stratocaster. Cuerpo de aliso, mastil de arce con diapason de palo de rosa, 3 pastillas single coil, puente con tremolo. Sonido limpio y cristalino, ideal para blues, rock y funk. Acabado sunburst clasico.",
+    category: "Electricas",
     image:
-      "https://images.unsplash.com/photo-1610632380989-680fe40816c6?w=800&q=80",
-    stock: 50,
+      "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&q=80",
+    stock: 8,
   },
   {
     id: 2,
-    name: "Espresso Italiano",
-    price: 5490,
+    name: "Les Paul Standard Cherry",
+    price: 1250000,
     description:
-      "Caja de 10 capsulas. Mezcla clasica italiana con notas de cacao y frutos secos. Crema densa y dorada. Ideal para el espresso de todos los dias.",
-    category: "Intenso",
+      "Guitarra electrica de cuerpo solido con tapa de arce flameado y caoba en el cuerpo. Mastil de caoba con diapason de palo de rosa. Dos pastillas humbucker, puente Tune-O-Matic. Sustain prolongado, sonido grueso y calido. Hecha para rock y hard rock.",
+    category: "Electricas",
     image:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
-    stock: 60,
+      "https://images.unsplash.com/photo-1564186763-fc1da1a8a3c0?w=800&q=80",
+    stock: 5,
   },
   {
     id: 3,
-    name: "Colombia Supremo",
-    price: 7990,
+    name: "Telecaster Butterscotch",
+    price: 780000,
     description:
-      "Caja de 10 capsulas. Cafe de origen unico de Colombia, cultivado en altura. Cuerpo balanceado, acidez media y notas frutales de panela y caramelo.",
-    category: "Intenso",
+      "Guitarra electrica de cuerpo de fresno acabado butterscotch blonde. Mastil de arce de una sola pieza, dos pastillas single coil con bridge plate de acero. Brillante, mordiente y articulada. Iconica del country, rock e indie.",
+    category: "Electricas",
     image:
-      "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80",
-    stock: 35,
+      "https://images.unsplash.com/photo-1564186763-2f5e0e96f1f4?w=800&q=80",
+    stock: 7,
   },
   {
     id: 4,
-    name: "Brasil Santos Reserva",
-    price: 9990,
+    name: "SG Special Cherry",
+    price: 620000,
     description:
-      "Caja de 10 capsulas. Origen Brasil, cuerpo cremoso con notas de chocolate con leche, nuez y un final dulce. Excelente con leche.",
-    category: "Intenso",
+      "Guitarra electrica de caoba solida con doble cutaway profundo. Mastil delgado de caoba, dos humbuckers de salida media. Liviana, comoda y agresiva. Pensada para rock duro y hard rock estilo Angus Young.",
+    category: "Electricas",
     image:
-      "https://images.unsplash.com/photo-1442550528053-c431ecb55509?w=800&q=80",
-    stock: 30,
+      "https://images.unsplash.com/photo-1525201548942-d8732f6617a0?w=800&q=80",
+    stock: 6,
   },
   {
     id: 5,
-    name: "Lungo Crema",
-    price: 4990,
+    name: "Acustica Folk Dreadnought",
+    price: 320000,
     description:
-      "Caja de 10 capsulas. Tueste medio pensado para tazas largas (110 ml). Crema persistente, cuerpo medio y notas de cereal tostado.",
-    category: "Suave",
+      "Guitarra acustica con caja Dreadnought, tapa de pino abeto macizo y aros y fondo de caoba. Mastil de nato, diapason de palo de rosa. Cuerdas de acero. Proyeccion potente y graves marcados. Ideal para acompanar canto.",
+    category: "Acusticas",
     image:
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80",
-    stock: 70,
+      "https://images.unsplash.com/photo-1493225458734-fcc6cf62c4c5?w=800&q=80",
+    stock: 12,
   },
   {
     id: 6,
-    name: "Cafe con Leche",
-    price: 4990,
+    name: "Clasica de Concierto Nylon",
+    price: 280000,
     description:
-      "Caja de 10 capsulas. Tueste suave optimizado para mezclar con leche. Notas dulces, baja amargura, perfecto para el desayuno.",
-    category: "Suave",
+      "Guitarra clasica con cuerdas de nylon. Tapa de cedro, fondo y aros de palo de rosa, mastil de cedro. Diapason de ebano. Sonido calido y dulce, ideal para folklore, bossa nova y musica clasica.",
+    category: "Acusticas",
     image:
-      "https://images.unsplash.com/photo-1542181961-9590d0c79dab?w=800&q=80",
-    stock: 80,
+      "https://images.unsplash.com/photo-1558098329-a11cff621064?w=800&q=80",
+    stock: 10,
   },
   {
     id: 7,
-    name: "Etiopia Yirgacheffe",
-    price: 11990,
+    name: "Electroacustica Jumbo",
+    price: 480000,
     description:
-      "Caja de 10 capsulas. Origen unico de Etiopia. Tueste claro con notas florales, citricas y un final limpio. Acidez delicada estilo barista.",
-    category: "Suave",
+      "Guitarra electroacustica con caja Jumbo y cutaway. Tapa de pino abeto macizo, preamplificador con afinador integrado y EQ de 3 bandas. Conexion jack 1/4 para amplificar. Versatil para vivo y grabacion.",
+    category: "Acusticas",
     image:
-      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80",
-    stock: 25,
+      "https://images.unsplash.com/photo-1556449895-a33c9dba33dd?w=800&q=80",
+    stock: 8,
   },
   {
     id: 8,
-    name: "Descafeinado Premium",
-    price: 5990,
+    name: "Jazz Bass 4 Cuerdas",
+    price: 720000,
     description:
-      "Caja de 10 capsulas. Sin cafeina por proceso de agua (Swiss Water). Conserva el cuerpo y los aromas del cafe. Sabor pleno sin estimulantes.",
-    category: "Descafeinado",
+      "Bajo electrico estilo Jazz Bass de 4 cuerdas. Cuerpo de aliso, mastil de arce con diapason de palo de rosa. Dos pastillas single coil con controles de volumen independientes y tono maestro. Mastil delgado, sonido moderno y articulado.",
+    category: "Bajos",
     image:
-      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80",
-    stock: 40,
+      "https://images.unsplash.com/photo-1583120715055-c5dba93cf67d?w=800&q=80",
+    stock: 4,
   },
   {
     id: 9,
-    name: "Descafeinado Lungo",
-    price: 5490,
+    name: "Precision Bass Active",
+    price: 890000,
     description:
-      "Caja de 10 capsulas. Cuerpo medio sin cafeina pensado para taza larga. Ideal de noche o despues de cenar.",
-    category: "Descafeinado",
+      "Bajo electrico estilo Precision con electronica activa. Cuerpo de aliso, mastil de arce. Pastilla split coil + jazz en el puente. Preamplificador activo con EQ de 2 bandas. Punch profundo, ideal para rock y funk.",
+    category: "Bajos",
     image:
-      "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800&q=80",
-    stock: 45,
+      "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=800&q=80",
+    stock: 3,
   },
   {
     id: 10,
-    name: "Vainilla Dolce",
-    price: 5990,
+    name: "Amplificador 30W Combo",
+    price: 245000,
     description:
-      "Caja de 10 capsulas. Espresso saborizado con vainilla natural. Dulzor sutil, sin azucar agregada. Excelente para postres.",
-    category: "Saborizado",
+      "Amplificador combo de 30W con parlante de 10 pulgadas. Dos canales (limpio y crunch), reverb digital, entrada auxiliar para celular y salida de auriculares. Ideal para practica y ensayos chicos.",
+    category: "Accesorios",
     image:
-      "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=800&q=80",
-    stock: 55,
+      "https://images.unsplash.com/photo-1556379118-7034d926d258?w=800&q=80",
+    stock: 15,
   },
   {
     id: 11,
-    name: "Caramelo Macchiato",
-    price: 5990,
+    name: "Pedal de Distorsion Vintage",
+    price: 89000,
     description:
-      "Caja de 10 capsulas. Notas de caramelo tostado y mantequilla. Cuerpo cremoso y final largo. Perfecto con un toque de leche.",
-    category: "Saborizado",
+      "Pedal de distorsion analogico con tres controles: volumen, tono y ganancia. Bypass real, alimentacion 9V (no incluye fuente). Sonido grueso y armonico estilo amplificador valvular. Construccion metalica robusta.",
+    category: "Accesorios",
     image:
-      "https://images.unsplash.com/photo-1521302080334-4bebac2763a6?w=800&q=80",
-    stock: 50,
+      "https://images.unsplash.com/photo-1571974599782-87624638275a?w=800&q=80",
+    stock: 25,
   },
   {
     id: 12,
-    name: "Avellana Tostada",
-    price: 5990,
+    name: "Set de Cuerdas Acero 0.10",
+    price: 18500,
     description:
-      "Caja de 10 capsulas. Espresso con avellana natural tostada. Aroma envolvente, ideal de media tarde con un alfajor o medialuna.",
-    category: "Saborizado",
+      "Juego completo de cuerdas para guitarra electrica calibre 0.10-0.46. Nucleo de acero hexagonal con entorchado de niquel. Empacadas individualmente con sellado anti-corrosion. Sonido brillante y duradero.",
+    category: "Accesorios",
     image:
-      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&q=80",
-    stock: 45,
+      "https://images.unsplash.com/photo-1599642010050-7e2f1bbd0e93?w=800&q=80",
+    stock: 100,
   },
 ];
 
 export const categories = [
-  "Intenso",
-  "Suave",
-  "Descafeinado",
-  "Saborizado",
+  "Electricas",
+  "Acusticas",
+  "Bajos",
+  "Accesorios",
 ];
 
 // Helpers para obtener productos.

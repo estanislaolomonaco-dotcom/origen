@@ -423,6 +423,67 @@
       border-radius: 3px;
     }
 
+    /* screenshots grid */
+    .screens {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 1rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .screen {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .screen-img {
+      flex: 1;
+      background: #0b1424;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .screen-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .screen-img .placeholder {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 1rem;
+      line-height: 1.5;
+    }
+    .screen-caption {
+      padding: 0.5rem 0.9rem;
+      background: var(--surface-2);
+      font-size: 0.82rem;
+      color: var(--text);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .screen-caption .tag {
+      background: var(--accent);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
     /* impresión / PDF */
     @media print {
       .nav, .progress { display: none; }
@@ -454,12 +515,12 @@
     <!-- ========== SLIDE 1 — PORTADA ========== -->
     <section class="slide cover active">
       <span class="slide-kicker">Parcial Oral · 71.38 Programación Web</span>
-      <h1>Origen <span style="font-size:0.55em;font-weight:400;color:var(--muted);letter-spacing:0">· cápsulas de café</span></h1>
+      <h1>Origen <span style="font-size:0.55em;font-weight:400;color:var(--muted);letter-spacing:0">· instrumentos musicales</span></h1>
       <p class="subtitle">
-        <em>"Café de origen, en cada cápsula."</em><br>
-        Tienda online de cápsulas de café compatibles (tipo Nespresso). Catálogo
-        con 12 cápsulas en 4 categorías, carrito persistente, checkout validado —
-        todo en el cliente, deployable en Vercel.
+        <em>"Donde nace tu sonido."</em><br>
+        Tienda online de instrumentos musicales: guitarras eléctricas, acústicas,
+        bajos y accesorios. Catálogo con 12 productos en 4 categorías, carrito
+        persistente, checkout validado — todo en el cliente, deployable en Vercel.
       </p>
 
       <div class="meta">
@@ -478,7 +539,7 @@
         <span class="label">Estado global</span>
         <span class="value">React Context + <code>localStorage</code></span>
         <span class="label">Datos</span>
-        <span class="value">12 cápsulas en <code>src/data/products.js</code> · 4 categorías <span class="pill pill-pending">backend pendiente</span></span>
+        <span class="value">12 instrumentos en <code>src/data/products.js</code> · 4 categorías <span class="pill pill-pending">backend pendiente</span></span>
         <span class="label">CI / Hosting</span>
         <span class="value">GitHub + <strong>Vercel</strong> · deploy automático</span>
       </div>
@@ -492,7 +553,7 @@
     <section class="slide">
       <header class="slide-header">
         <span class="slide-kicker">Slide 2 · Arquitectura</span>
-        <span class="slide-num">02 / 06</span>
+        <span class="slide-num">02 / 07</span>
       </header>
 
       <h1 style="font-size: 1.8rem">Diagrama de arquitectura</h1>
@@ -558,7 +619,7 @@ flowchart LR
     <section class="slide">
       <header class="slide-header">
         <span class="slide-kicker">Slide 3 · Módulo 2</span>
-        <span class="slide-num">03 / 06</span>
+        <span class="slide-num">03 / 07</span>
       </header>
 
       <h1>Fundamentos HTML / CSS / JS</h1>
@@ -636,7 +697,7 @@ flowchart LR
     <section class="slide">
       <header class="slide-header">
         <span class="slide-kicker">Slide 4 · Módulo 3</span>
-        <span class="slide-num">04 / 06</span>
+        <span class="slide-num">04 / 07</span>
       </header>
 
       <h1>React + Next.js</h1>
@@ -708,7 +769,7 @@ useEffect(() =&gt; {
             └── not-found.js           <span class="arrow">→</span> <span class="url">404</span>
           </div>
           <p class="muted" style="font-size: 0.85rem; margin-top: 0.5rem">
-            <code>generateStaticParams()</code> pre-renderiza las <strong>12 cápsulas</strong> en build (verificable: <code>npm run build</code> → <code>● (SSG)</code>).
+            <code>generateStaticParams()</code> pre-renderiza las <strong>12 páginas de instrumentos</strong> en build (verificable: <code>npm run build</code> → <code>● (SSG)</code>).
           </p>
 
           <h3 style="color: var(--accent); margin-top: 1.2rem">Server vs Client Components</h3>
@@ -739,11 +800,84 @@ useEffect(() =&gt; {
       </div>
     </section>
 
-    <!-- ========== SLIDE 5 — CI/CD ========== -->
+    <!-- ========== SLIDE 5 — RECORRIDO POR LA APP ========== -->
     <section class="slide">
       <header class="slide-header">
-        <span class="slide-kicker">Slide 5 · Módulo A</span>
-        <span class="slide-num">05 / 06</span>
+        <span class="slide-kicker">Slide 5 · Producto en vivo</span>
+        <span class="slide-num">05 / 07</span>
+      </header>
+
+      <h1>Recorrido por la app</h1>
+      <p class="lead">El usuario explora, agrega al carrito, completa el checkout. Todo funcionando en producción.</p>
+
+      <div class="screens">
+        <div class="screen">
+          <div class="screen-img">
+            <img src="screenshots/home.png" alt="Home de Origen" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="placeholder" style="display:none">
+              📸 <code>screenshots/home.png</code><br>
+              <span style="opacity:0.7">Hero + instrumentos destacados + categorías</span>
+            </div>
+          </div>
+          <div class="screen-caption">
+            <span class="tag">Home</span>
+            <span>Hero, destacados, categorías y beneficios</span>
+          </div>
+        </div>
+
+        <div class="screen">
+          <div class="screen-img">
+            <img src="screenshots/catalogo.png" alt="Catálogo con filtros" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="placeholder" style="display:none">
+              📸 <code>screenshots/catalogo.png</code><br>
+              <span style="opacity:0.7">Grilla de instrumentos + buscador + filtros + orden</span>
+            </div>
+          </div>
+          <div class="screen-caption">
+            <span class="tag">Catálogo</span>
+            <span>Buscador, filtro por categoría, orden por precio/nombre</span>
+          </div>
+        </div>
+
+        <div class="screen">
+          <div class="screen-img">
+            <img src="screenshots/detalle.png" alt="Detalle de producto" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="placeholder" style="display:none">
+              📸 <code>screenshots/detalle.png</code><br>
+              <span style="opacity:0.7">Detalle SSG + selector cantidad + relacionados</span>
+            </div>
+          </div>
+          <div class="screen-caption">
+            <span class="tag">Detalle</span>
+            <span>SSG (<code>generateStaticParams</code>) + productos relacionados</span>
+          </div>
+        </div>
+
+        <div class="screen">
+          <div class="screen-img">
+            <img src="screenshots/carrito.png" alt="Carrito y checkout" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="placeholder" style="display:none">
+              📸 <code>screenshots/carrito.png</code><br>
+              <span style="opacity:0.7">Carrito persistido en localStorage o checkout confirmado</span>
+            </div>
+          </div>
+          <div class="screen-caption">
+            <span class="tag">Carrito</span>
+            <span>Persistido en <code>localStorage</code> · checkout validado</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="footnote">
+        <strong>Demo en vivo disponible:</strong> <code>npm run dev</code> en local · o la URL de Vercel si está deployado. La navegación entre rutas no recarga la página (cliente).
+      </p>
+    </section>
+
+    <!-- ========== SLIDE 6 — CI/CD ========== -->
+    <section class="slide">
+      <header class="slide-header">
+        <span class="slide-kicker">Slide 6 · Módulo A</span>
+        <span class="slide-num">06 / 07</span>
       </header>
 
       <h1>CI/CD: del commit a la URL pública</h1>
@@ -803,15 +937,15 @@ useEffect(() =&gt; {
       </div>
 
       <p class="footnote">
-        <strong>Verificable en vivo:</strong> <code>npm run build</code> compila en limpio · <span class="filepath">19 rutas, 12 cápsulas pre-renderizadas como SSG</span> · <code>npm run lint</code> → 0 warnings, 0 errors.
+        <strong>Verificable en vivo:</strong> <code>npm run build</code> compila en limpio · <span class="filepath">19 rutas, 12 instrumentos pre-renderizados como SSG</span> · <code>npm run lint</code> → 0 warnings, 0 errors.
       </p>
     </section>
 
-    <!-- ========== SLIDE 6 — IA ========== -->
+    <!-- ========== SLIDE 7 — IA ========== -->
     <section class="slide">
       <header class="slide-header">
-        <span class="slide-kicker">Slide 6 · Módulo 4 · 20 pts</span>
-        <span class="slide-num">06 / 06</span>
+        <span class="slide-kicker">Slide 7 · Módulo 4 · 20 pts</span>
+        <span class="slide-num">07 / 07</span>
       </header>
 
       <h1>Uso fundamentado de IA</h1>
@@ -975,7 +1109,7 @@ useEffect(() =&gt; {
         show(current - 1);
       } else if (e.key === "Home") show(0);
       else if (e.key === "End") show(total - 1);
-      else if (/^[1-6]$/.test(e.key)) show(parseInt(e.key, 10) - 1);
+      else if (/^[1-7]$/.test(e.key)) show(parseInt(e.key, 10) - 1);
     });
 
     show(0);

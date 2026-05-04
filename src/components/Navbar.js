@@ -18,7 +18,7 @@ export default function Navbar() {
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.brand} onClick={closeMenu}>
           <span className={styles.logoMark} aria-hidden="true">
-            ☕
+            🎸
           </span>
           <span>Origen</span>
         </Link>
