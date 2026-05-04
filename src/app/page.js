@@ -4,6 +4,14 @@ import ProductImage from "@/components/ProductImage";
 import { products, categories } from "@/data/products";
 import styles from "./page.module.css";
 
+// Imagen representativa por categoria — usamos un producto de cada una.
+const categoryVisuals = {
+  Electricas: { image: "/products/stratocaster.jpg", icon: "🎸" },
+  Acusticas: { image: "/products/folk.jpg", icon: "🪕" },
+  Bajos: { image: "/products/jazzbass.jpg", icon: "🎵" },
+  Accesorios: { image: "/products/amplificador.jpg", icon: "🔊" },
+};
+
 export default function HomePage() {
   // Tomamos los primeros 4 productos como destacados.
   const featured = products.slice(0, 4);
@@ -38,7 +46,7 @@ export default function HomePage() {
           <div className={styles.heroText}>
             <span className={styles.kicker}>Instrumentos musicales</span>
             <h1 className={styles.heroTitle}>
-              Donde nace tu sonido
+              Donde nace tu <span className={styles.heroAccent}>sonido</span>
             </h1>
             <p className={styles.heroSubtitle}>
               Guitarras electricas, acusticas, bajos y accesorios. Marcas
@@ -54,11 +62,46 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <div className={styles.heroImage} aria-hidden="true">
-            <ProductImage
-              src="/products/lespaul.jpg"
-              alt="Origen instrumentos"
-            />
+
+          <div className={styles.heroGrid} aria-hidden="true">
+            <div className={`${styles.heroCell} ${styles.heroCellMain}`}>
+              <ProductImage src="/products/stratocaster.jpg" alt="Stratocaster" />
+              <span className={styles.heroBadge}>Eléctricas</span>
+            </div>
+            <div className={styles.heroCell}>
+              <ProductImage src="/products/folk.jpg" alt="Acústica folk" />
+              <span className={styles.heroBadge}>Acústicas</span>
+            </div>
+            <div className={styles.heroCell}>
+              <ProductImage src="/products/jazzbass.jpg" alt="Bajo Jazz" />
+              <span className={styles.heroBadge}>Bajos</span>
+            </div>
+            <div className={styles.heroCell}>
+              <ProductImage src="/products/amplificador.jpg" alt="Amplificador" />
+              <span className={styles.heroBadge}>Accesorios</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Banda de stats — entre hero y destacados */}
+      <section className={styles.stats}>
+        <div className={`container ${styles.statsInner}`}>
+          <div className={styles.statItem}>
+            <strong>12</strong>
+            <span>instrumentos</span>
+          </div>
+          <div className={styles.statItem}>
+            <strong>4</strong>
+            <span>categorías</span>
+          </div>
+          <div className={styles.statItem}>
+            <strong>24/48h</strong>
+            <span>envío</span>
+          </div>
+          <div className={styles.statItem}>
+            <strong>100%</strong>
+            <span>garantía</span>
           </div>
         </div>
       </section>
@@ -77,24 +120,41 @@ export default function HomePage() {
 
       <section className="section">
         <div className="container">
-          <h2 className="section-title">Categorias</h2>
+          <h2 className="section-title">Categorías</h2>
+          <p className={styles.sectionLead}>
+            Encontrá tu instrumento ideal navegando por categoría.
+          </p>
           <div className={styles.categories}>
-            {categories.map((cat) => (
-              <Link
-                key={cat}
-                href={`/productos?categoria=${encodeURIComponent(cat)}`}
-                className={styles.categoryCard}
-              >
-                <span>{cat}</span>
-              </Link>
-            ))}
+            {categories.map((cat) => {
+              const visual = categoryVisuals[cat] || {};
+              return (
+                <Link
+                  key={cat}
+                  href={`/productos?categoria=${encodeURIComponent(cat)}`}
+                  className={styles.categoryCard}
+                >
+                  <div className={styles.categoryImg} aria-hidden="true">
+                    {visual.image && (
+                      <ProductImage src={visual.image} alt="" />
+                    )}
+                    <div className={styles.categoryOverlay}></div>
+                  </div>
+                  <div className={styles.categoryContent}>
+                    <span className={styles.categoryIcon} aria-hidden="true">
+                      {visual.icon || "🎵"}
+                    </span>
+                    <span className={styles.categoryName}>{cat}</span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <section className="section" id="beneficios">
         <div className="container">
-          <h2 className="section-title">Por que elegirnos</h2>
+          <h2 className="section-title">Por qué elegirnos</h2>
           <div className={styles.benefits}>
             {benefits.map((b) => (
               <div key={b.title} className={styles.benefit}>
