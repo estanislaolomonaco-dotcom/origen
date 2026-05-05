@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { findAllProducts, findAllCategories } from "@/lib/db/products";
+import { fetchAllProducts, fetchAllCategories } from "@/lib/api";
 import ProductsView from "./ProductsView";
 
 export const metadata = {
@@ -8,8 +8,8 @@ export const metadata = {
 
 export default async function ProductsPage() {
   // Carga server-side de productos + categorías; ProductsView es Client.
-  const products = await findAllProducts();
-  const categories = await findAllCategories();
+  const products = await fetchAllProducts();
+  const categories = await fetchAllCategories();
 
   return (
     <div className="container">

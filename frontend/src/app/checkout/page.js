@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
+import { postOrder } from "@/lib/api";
 import styles from "./page.module.css";
 
 const initialForm = {
@@ -54,33 +55,22 @@ export default function CheckoutPage() {
     setSubmitError("");
 
     try {
-      const response = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customer: {
-            name: form.name,
-            email: form.email,
-            phone: form.phone,
-            address: form.address,
-            comments: form.comments,
-          },
-          items: items.map((it) => ({
-            id: it.id,
-            name: it.name,
-            price: it.price,
-            quantity: it.quantity,
-          })),
-          total: totalPrice,
-        }),
+      const { orderId } = await postOrder({
+        customer: {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          address: form.address,
+          comments: form.comments,
+        },
+        items: items.map((it) => ({
+          id: it.id,
+          name: it.name,
+          price: it.price,
+          quantity: it.quantity,
+        })),
+        total: totalPrice,
       });
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || "No se pudo procesar la orden.");
-      }
-
-      const { orderId } = await response.json();
 
       setConfirmed({
         id: orderId,
