@@ -1,0 +1,282 @@
+.hero {
+  position: relative;
+  height: 88vh;
+  min-height: 560px;
+  max-height: 900px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #1a0f06;
+}
+
+/* Background images */
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  will-change: opacity;
+}
+
+.bgActive {
+  opacity: 1;
+}
+
+/* Dark gradient overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(10, 5, 2, 0.78) 0%,
+    rgba(10, 5, 2, 0.5) 55%,
+    rgba(10, 5, 2, 0.2) 100%
+  );
+  z-index: 1;
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.textBlock {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Animations */
+@keyframes slideFromRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.anim_next {
+  animation: slideFromRight 0.5s ease forwards;
+}
+
+.anim_prev {
+  animation: slideFromLeft 0.5s ease forwards;
+}
+
+/* Kicker */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent-mid);
+  align-self: flex-start;
+}
+
+.kicker::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-accent-mid);
+}
+
+/* Title */
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 480px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* CTA buttons */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.ctaBtn {
+  color: white;
+  padding: 0.8rem 1.75rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: filter 0.2s, transform 0.1s;
+}
+
+.ctaBtn:hover {
+  filter: brightness(1.1);
+  background: inherit;
+}
+
+.ctaOutline {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.9rem;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+
+.ctaOutline:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Navigation arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  backdrop-filter: blur(6px);
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.arrowPrev {
+  left: 1.5rem;
+}
+
+.arrowNext {
+  right: 1.5rem;
+}
+
+/* Dots */
+.dots {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  padding: 0;
+}
+
+.dotActive {
+  background: white;
+  transform: scale(1.35);
+}
+
+/* Progress bar */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 3;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-accent-mid);
+  animation: progressAnim linear forwards;
+  transform-origin: left;
+}
+
+@keyframes progressAnim {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    height: 75vh;
+    min-height: 480px;
+  }
+
+  .overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(10, 5, 2, 0.4) 0%,
+      rgba(10, 5, 2, 0.75) 100%
+    );
+  }
+
+  .content {
+    align-self: flex-end;
+    padding-bottom: 4rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .arrowPrev, .arrowNext {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 70vh;
+  }
+  .actions {
+    flex-direction: column;
+  }
+  .ctaBtn, .ctaOutline {
+    width: 100%;
+    text-align: center;
+  }
+}

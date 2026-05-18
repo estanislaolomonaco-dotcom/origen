@@ -1,35 +1,37 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+# Monorepo MusicTrack — gitignore raíz
 
-# testing
-/coverage
+# Dependencias en cualquier subcarpeta
+**/node_modules
+**/.pnp
+**/.pnp.js
+**/.yarn/install-state.gz
 
-# next.js
-/.next/
-/out/
+# Builds de Next.js (frontend)
+**/.next/
+**/out/
+**/build/
 
-# production
-/build
+# Coverage
+**/coverage/
 
-# misc
+# Variables de entorno locales
+**/.env
+**/.env*.local
+
+# Vercel
+**/.vercel
+
+# Logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# OS / editores
 .DS_Store
 *.pem
+.idea/
+.vscode/
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-.env
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# TypeScript (por si se suma)
+**/*.tsbuildinfo
+**/next-env.d.ts

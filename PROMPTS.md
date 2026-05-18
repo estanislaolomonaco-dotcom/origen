@@ -193,6 +193,73 @@ El proyecto pasó por **dos rebrands** durante el desarrollo. Esto es importante
 
 ---
 
+## 8.6. Backend con Supabase (Módulo E — Semanas 10-12)
+
+Migrar de mock data local a un backend real con base de datos. Mantener compatibilidad con el deploy actual: si las env vars de Supabase no están configuradas, la app sigue funcionando con el mock.
+
+### Prompt 8.6 — Backend conectado a Supabase
+
+> Quiero conectar la app a **Supabase** como backend. La consigna es:
+>
+> **1) Modelado de tablas (S10):**
+> Crear migración SQL en `supabase/migrations/001_init.sql` con 4 tablas:
+> - `profiles` (id uuid PK matching auth.users.id, full_name, phone, address, created_at) — preparada para futura auth
+> - `products` (id bigserial, name, price integer, description, category, image, stock, created_at)
+> - `orders` (id bigserial, order_code text unique formato `MT-XXXXXX`, user_id uuid nullable referencia profiles, datos de contacto del comprador, total integer, status text default 'pending', created_at)
+> - `order_items` (id bigserial, order_id FK con on delete cascade, product_id FK, product_name snapshot, unit_price integer, quantity integer, subtotal integer)
+>
+> Habilitar RLS en las 4 tablas. Policies:
+> - `products`: SELECT público para todos
+> - `orders` y `order_items`: INSERT público (guest checkout); SELECT solo para el dueño cuando haya auth
+> - `profiles`: solo el dueño puede leer/editar lo suyo
+>
+> Crear índices para columnas que se filtran (`products.category`, `orders.created_at`, `order_items.order_id`).
+>
+> **2) Seed (S10):**
+> Crear `supabase/seed.sql` que inserta los 12 instrumentos actuales (Stratocaster, Les Paul, Telecaster, SG, Folk Dreadnought, Clásica Nylon, Electroacústica, Jazz Bass, Precision Bass, Amplificador 30W, Pedal Distorsión, Set Cuerdas) con sus precios, descripciones y paths de imagen `/products/xxx.jpg`.
+>
+> **3) Capa de datos desde Next (S11):**
+> Instalar `@supabase/supabase-js`. Crear:
+> - `src/lib/supabase/client.js` — factory `getSupabaseBrowserClient()` para Client Components
+> - `src/lib/supabase/server.js` — factory `getSupabaseServerClient()` para Server Components y API Routes
+> - `src/lib/db/products.js` — `findAllProducts()`, `findProductById(id)`, `findRelatedProducts(id, category, limit)` — con **fallback al mock de `src/data/products.js` si las env vars no están configuradas**
+> - `src/lib/db/orders.js` — `createOrder({ customerData, items, total })` que inserta en `orders` y `order_items` en transacción
+>
+> **4) Integración (S12):**
+> Migrar las páginas a Server Components async:
+> - `src/app/page.js` (home) — usar `findAllProducts()` para los destacados
+> - `src/app/productos/page.js` — pasar productos a `ProductsView` como prop
+> - `src/app/productos/[id]/page.js` — usar `findProductById()` y `findRelatedProducts()`. `generateStaticParams` también debe leer de Supabase (con fallback al mock).
+>
+> Crear `src/app/api/orders/route.js` con un POST handler que recibe `{ customerData, items, total }`, llama a `createOrder()`, devuelve `{ orderId }`. Modificar `checkout/page.js` para hacer `fetch('/api/orders', {method:'POST'})` en vez de generar el orderId localmente.
+>
+> **5) Variables de entorno:**
+> Crear `.env.example` con `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Documentar en README cómo configurar Supabase desde cero (crear proyecto, ejecutar migración, ejecutar seed, copiar credenciales).
+>
+> **6) Compatibilidad:**
+> El build actual NO debe romperse. Si las env vars de Supabase no están definidas, todas las funciones del data layer caen al mock local de `src/data/products.js`. Solo las órdenes requieren Supabase real (porque insertan datos). Verificar con `npm run build` que sigue compilando 19 rutas en limpio.
+
+### Por qué este prompt
+- **Migración por fases sin breaking changes**: el data layer con fallback permite que el sitio actual siga deployado mientras Supabase se configura.
+- **Cubre las 3 sub-consignas del Módulo E** (S10 modelado + seed, S11 capa de datos + protección, S12 integración) en una sola pasada.
+- **Prepara el terreno para Mercado Pago (S13-S15)**: la tabla `orders` ya tiene campo `status` con valores futuros (`pending` / `approved` / `failed`).
+- **Server Components correctos**: las queries van en el server, anon key alcanza para lectura pública. El admin usa service role (futuro).
+
+### Próximos pasos del usuario (no son IA)
+1. Crear cuenta en supabase.com → nuevo proyecto.
+2. Copiar Project URL y anon key a `.env.local`.
+3. Ejecutar `001_init.sql` en el SQL Editor de Supabase.
+4. Ejecutar `seed.sql` después.
+5. Configurar las mismas env vars en Vercel (Settings → Environment Variables) para producción.
+6. Re-deploy.
+
+### Validación
+- `npm run build` sin Supabase configurado → app funciona con mock (deploy actual no se rompe).
+- `npm run build` con Supabase configurado → páginas leen de la base real, las 12 páginas de productos se prerenderizan con datos de Supabase.
+- Probar checkout completo: agregar al carrito → ir a checkout → confirmar → verificar inserción en tablas `orders` y `order_items` desde Supabase Dashboard.
+
+---
+
 ## 9. Debugging y correcciones
 
 ### Prompt 9.1 — Build estático rompía con `useSearchParams`

@@ -1,136 +1,212 @@
-# MusicTrack — Instrumentos musicales
+# MusicTrack — Monorepo
 
 > **Donde nace tu sonido.**
+>
+> E-commerce de instrumentos musicales (guitarras eléctricas, acústicas, bajos y accesorios) — proyecto académico para la materia **71.38 Programación Web**.
 
-Frontend de un e-commerce de instrumentos musicales (guitarras eléctricas, acústicas, bajos y accesorios) desarrollado con **Next.js** como proyecto académico para la materia **Programación Web**. Sitio totalmente funcional del lado del cliente, sin backend ni base de datos: los productos están mockeados localmente y el carrito se persiste en `localStorage`.
-
-> El catálogo, la marca y los estilos son fácilmente personalizables (ver sección "Cómo personalizar").
-
-## Stack
-
-- **Next.js 14** (App Router)
-- **React 18**
-- **JavaScript** (sin TypeScript)
-- **CSS Modules** + CSS global con paleta basada en variables
-- **HTML semántico** y diseño **responsive**
-- Sin backend, sin base de datos, sin autenticación, sin pagos reales
-
-## Estructura del proyecto
+## Estructura
 
 ```
 .
-├── src/
-│   ├── app/                 # Rutas (App Router)
-│   │   ├── layout.js        # Layout raíz con Navbar y Footer
-│   │   ├── page.js          # Home
-│   │   ├── productos/       # Listado y detalle de instrumentos
-│   │   ├── carrito/         # Vista del carrito
-│   │   └── checkout/        # Checkout simple
-│   ├── components/          # Componentes reutilizables
-│   ├── context/             # CartContext (estado global)
-│   ├── data/                # Catálogo mockeado
-│   └── lib/                 # Helpers (formato de precio, etc.)
-├── presentacion/            # Slides HTML del parcial
-├── public/
-├── next.config.mjs
-├── jsconfig.json
-└── package.json
+├── frontend/        # Next.js 14 — UI pura. Hace fetch al backend.
+│                    # Vercel deploy A.
+├── backend/         # Next.js 14 — API REST + cliente Supabase.
+│   └── supabase/    # Migraciones SQL + seed.
+│                    # Vercel deploy B (otra URL).
+├── presentacion/    # Slides HTML del oral
+├── README.md
+├── PRESENTACION.md  # Versión texto de las slides
+├── PITCH.md         # Guion oral de 10 min
+├── GUION.md         # Guion literal slide por slide
+├── PROMPTS.md       # Documentación de prompts de IA (anexo módulo 4)
+└── EXPLICACION_SLIDES.md  # Glosario detallado de cada término
 ```
 
-## Catálogo
+## Arquitectura: dos servicios separados
 
-12 instrumentos distribuidos en 4 categorías:
+```
+┌──────────────────┐       fetch        ┌──────────────────┐       SQL       ┌──────────────┐
+│  FRONTEND        │ ─────────────────▶ │  BACKEND         │ ──────────────▶ │  Supabase    │
+│  Next.js · UI    │                    │  Next.js · API   │                 │  PostgreSQL  │
+│                  │  /api/products     │                  │                 │              │
+│  vercel deploy A │  /api/categories   │  vercel deploy B │                 │              │
+└──────────────────┘  /api/products/:id └──────────────────┘                 └──────────────┘
+                      /api/orders
+```
 
-- **Eléctricas** — Stratocaster Vintage Sunburst, Les Paul Standard Cherry, Telecaster Butterscotch, SG Special Cherry
-- **Acústicas** — Acústica Folk Dreadnought, Clásica de Concierto Nylon, Electroacústica Jumbo
-- **Bajos** — Jazz Bass 4 Cuerdas, Precision Bass Active
-- **Accesorios** — Amplificador 30W Combo, Pedal de Distorsión Vintage, Set de Cuerdas Acero
+| Servicio | Qué tiene | Env vars |
+|---|---|---|
+| **frontend/** | UI, componentes, carrito (localStorage), `lib/api.js` que hace fetch | `NEXT_PUBLIC_API_URL` (URL del backend) |
+| **backend/** | Endpoints REST, capa de datos, conexión a Supabase, middleware | `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` |
+
+## Quick start
+
+### En desarrollo: levantá los dos servicios en terminales separadas
+
+```bash
+# Terminal 1 — Backend (API)
+cd backend
+npm install
+cp .env.example .env.local      # completar URL + PUBLISHABLE_KEY de Supabase
+npm run dev                      # http://localhost:3001
+
+# Terminal 2 — Frontend (UI)
+cd frontend
+npm install
+cp .env.example .env.local      # NEXT_PUBLIC_API_URL=http://localhost:3001
+npm run dev                      # http://localhost:3000
+```
+
+Si el backend no está corriendo (o no tiene Supabase configurado), el frontend cae al **mock local** de `frontend/src/data/products.js`. La app sigue funcionando, solo que no persiste órdenes.
+
+### Setup de Supabase (una sola vez)
+
+1. Crear proyecto en [supabase.com](https://supabase.com).
+2. SQL Editor → ejecutar [backend/supabase/migrations/001_init.sql](backend/supabase/migrations/001_init.sql) (4 tablas + RLS).
+3. SQL Editor → ejecutar [backend/supabase/seed.sql](backend/supabase/seed.sql) (12 instrumentos).
+4. Settings → API → copiar `Project URL` y `anon public key` (también llamada *publishable key*).
+5. Pegar en `backend/.env.local`.
+
+Detalle completo: [backend/README.md](backend/README.md).
+
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Framework | **Next.js 14** · App Router |
+| Lenguaje | **JavaScript** ES6 modules |
+| UI | React 18 · CSS Modules · HTML semántico |
+| Estado global | React Context + `localStorage` |
+| Backend | **Supabase** (PostgreSQL + RLS) |
+| CI / Hosting | GitHub + **Vercel** |
 
 ## Funcionalidades
 
-- Home con hero, instrumentos destacados, categorías y beneficios.
-- Catálogo con grilla responsive, **buscador** por nombre, **filtro** por categoría y **ordenamiento** por precio o nombre.
-- Página de detalle dinámica para cada instrumento (`/productos/[id]`) con productos relacionados.
-- Carrito global con React Context, persistido en `localStorage` bajo la key `musictrack_cart`.
-  - Agregar / quitar / aumentar / disminuir cantidad / vaciar carrito.
-  - Contador de productos en la Navbar.
-- Checkout simple con formulario validado (nombre, email, teléfono, dirección, comentarios) y mensaje de confirmación con número de orden `MT-XXXXXX`.
-- Diseño responsive para desktop, tablet y mobile.
+- Home con hero, instrumentos destacados, categorías, beneficios.
+- Catálogo con búsqueda, filtro por categoría, ordenamiento.
+- Detalle dinámico (`/productos/[id]`) **prerenderizado en build (SSG)**.
+- Carrito persistido en `localStorage` bajo la key `musictrack_cart`.
+- Checkout con validación → **POST a `/api/orders`** que inserta en Supabase.
+- Order ID humano: `MT-XXXXXX`.
 
-## Cómo correrlo
+## Deploy en Vercel — DOS proyectos separados
 
-### 1. Instalar dependencias
+### 1) Backend (API)
+
+1. New project → mismo repo de GitHub.
+2. **Root Directory:** `backend`.
+3. **Environment Variables:**
+   - `NEXT_PUBLIC_SUPABASE_URL` (Project Settings → API)
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (anon public)
+   - `ALLOWED_ORIGINS` (opcional) → la URL del frontend (`https://musictrack.vercel.app`)
+4. Deploy. La URL queda algo como `https://musictrack-api.vercel.app`.
+
+### 2) Frontend (UI)
+
+1. New project → mismo repo.
+2. **Root Directory:** `frontend`.
+3. **Environment Variables:**
+   - `NEXT_PUBLIC_API_URL` → la URL del backend deployado.
+4. Deploy. La URL queda algo como `https://musictrack.vercel.app`.
+
+Cada `git push` redeploya ambos automáticamente (o solo uno si Vercel detecta que solo cambió esa carpeta — depende del proyecto).
+
+### Supabase
+
+Supabase es totalmente gestionado: el "deploy" es ejecutar las migraciones y el seed desde el SQL Editor. No requiere infraestructura propia.
+
+## Mercado Pago (Checkout Pro)
+
+El checkout permite pagar con **Mercado Pago** además del flujo manual.
+Se usa **Checkout Pro** (redirect a `init_point`) en vez de Bricks porque
+el frontend usa CSS Modules sin dependencias de UI y el redirect deja
+**cero** lógica de pago del lado cliente.
+
+### 1) Migración de BD
 
 ```bash
-npm install
+# En SQL Editor de Supabase, correr:
+backend/supabase/migrations/002_mercadopago.sql
 ```
 
-### 2. Levantar el entorno de desarrollo
+Agrega: `payment_provider`, `payment_id` (UNIQUE para idempotencia),
+`payment_status`, `payment_raw_response`, `payment_preference_id`.
+
+### 2) Variables de entorno (backend)
+
+En `backend/.env.local`:
+
+```env
+MP_ACCESS_TOKEN=TEST-xxxxx       # Sandbox: empieza con TEST-
+MP_PUBLIC_KEY=TEST-xxxxx         # Sólo si en el futuro usamos Bricks
+MP_WEBHOOK_SECRET=xxxxx          # Dashboard MP → Webhooks → Clave secreta
+FRONTEND_URL=http://localhost:3000
+BACKEND_PUBLIC_URL=http://localhost:3001
+```
+
+> ⚠️ En dev local, MP necesita una URL pública para enviar webhooks.
+> Usar [ngrok](https://ngrok.com/) o `cloudflared tunnel` apuntando al 3001
+> y poner esa URL en `BACKEND_PUBLIC_URL`.
+
+### 3) Endpoints
+
+| Método | Ruta | Qué hace |
+|---|---|---|
+| `POST` | `/api/payments/mercadopago/create-preference` | Valida items contra DB, crea orden + preference, devuelve `initPoint`. |
+| `POST` | `/api/payments/mercadopago/webhook` | Valida firma `x-signature`, re-consulta el pago a MP y actualiza la orden (idempotente). |
+| `GET` | `/api/orders/:orderCode` | Estado real de la orden (usado por las páginas de retorno). |
+
+### 4) Flujo
+
+1. Usuario completa el checkout y elige *Mercado Pago* → POST a `create-preference`.
+2. Backend valida stock/precios, crea la orden `pending` y obtiene `initPoint`.
+3. Frontend redirige a `initPoint` (Checkout Pro).
+4. MP redirige al usuario a `/checkout/success|failure|pending`.
+5. Esas páginas **no confían en query params** — consultan `/api/orders/:code`.
+6. MP envía webhook en paralelo → backend re-consulta el pago y actualiza la orden.
+
+### 5) Tarjetas de prueba (sandbox Argentina)
+
+Usuario de prueba: ver [docs MP](https://www.mercadopago.com.ar/developers/es/docs/checkout-pro/test-integration).
+
+| Resultado | Número | CVV | Vencimiento | Titular |
+|---|---|---|---|---|
+| **APRO** (aprobado) | `5031 7557 3453 0604` | `123` | `11/30` | `APRO` |
+| **OTHE** (rechazado por error general) | igual | igual | igual | `OTHE` |
+| **CONT** (pendiente) | igual | igual | igual | `CONT` |
+| **CALL** (rechazado por autorización) | igual | igual | igual | `CALL` |
+| **FUND** (sin fondos) | igual | igual | igual | `FUND` |
+
+DNI: `12345678`. El nombre del titular **es** el switch del resultado.
+
+### 6) Tests
 
 ```bash
-npm run dev
+cd backend
+npm test          # smoke tests de firma + mapper de estados
 ```
 
-Abrir [http://localhost:3000](http://localhost:3000).
+El test de integración contra el sandbox de MP corre sólo si está
+`MP_ACCESS_TOKEN` en el entorno.
 
-### 3. Build de producción
+## TODOs pendientes
 
-```bash
-npm run build
-npm start
-```
+- Decremento de stock en webhook tras `approved`.
+- Email de confirmación al cliente.
+- Mover efectos post-pago a una cola si crecen (BullMQ / Inngest / pg_cron).
+- Opción de Bricks (checkout embebido) si se quiere evitar el redirect.
 
-### 4. Lint
+## Próximos pasos (módulos siguientes)
 
-```bash
-npm run lint
-```
+- **S11 · Auth**: Supabase Auth + completar `profiles` con trigger.
+- **S12 · Admin panel**: rutas server-only para gestionar productos y órdenes.
 
-## Cómo subirlo a GitHub
+## Materiales del oral
 
-```bash
-git init
-git add .
-git commit -m "MusicTrack — instrumentos musicales"
-git branch -M main
-git remote add origin https://github.com/<TU-USUARIO>/<NOMBRE-DEL-REPO>.git
-git push -u origin main
-```
-
-## Cómo deployarlo en Vercel
-
-1. Entrar a [https://vercel.com](https://vercel.com) e iniciar sesión con GitHub.
-2. Click en **Add New… → Project** y elegir el repositorio.
-3. Vercel detecta automáticamente que es Next.js. Dejar las opciones por defecto.
-4. Click en **Deploy**.
-
-Cada `git push` a `main` genera un nuevo deploy automáticamente.
-
-## Cómo personalizar
-
-- **Catálogo:** editar [src/data/products.js](src/data/products.js) — cambiar nombres, precios, descripciones, categorías, stock o imágenes. Las imágenes pueden ser URLs públicas (Unsplash) o archivos locales en `public/`.
-- **Marca / nombre:**
-  - [src/components/Navbar.js](src/components/Navbar.js) — texto del brand y emoji/logo.
-  - [src/components/Footer.js](src/components/Footer.js) — descripción.
-  - [src/app/layout.js](src/app/layout.js) — title y description SEO.
-  - [src/app/page.js](src/app/page.js) — hero y bloque de beneficios.
-- **Paleta de colores:** centralizada como variables CSS en [src/app/globals.css](src/app/globals.css) (`:root`). Cambiando 4 variables (`--color-primary`, `--color-accent`, `--color-bg`, `--color-text`) se rebrandea toda la UI.
-
-## Materiales del parcial
-
-- [PRESENTACION.md](PRESENTACION.md) — versión texto de las slides.
 - [presentacion/index.html](presentacion/index.html) — slides interactivas.
-- [PITCH.md](PITCH.md) — guion oral de 10 minutos.
-- [PROMPTS.md](PROMPTS.md) — documentación de prompts de IA (anexo obligatorio).
-
-## Qué falta / próximos pasos sugeridos
-
-- Backend real (Next.js API Routes o Supabase) y base de datos de productos.
-- Autenticación de usuarios y historial de pedidos.
-- Pasarela de pagos (Mercado Pago, Stripe).
-- Reviews y rating de productos.
-- Panel de administración para gestionar el catálogo.
-- Tests automatizados.
+- [PITCH.md](PITCH.md) / [GUION.md](GUION.md) — guion del oral.
+- [PROMPTS.md](PROMPTS.md) — anexo de prompts de IA.
+- [EXPLICACION_SLIDES.md](EXPLICACION_SLIDES.md) — glosario.
 
 ## Licencia
 
